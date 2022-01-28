@@ -2,6 +2,11 @@ import AppLoading from "expo-app-loading";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as Font from "expo-font";
+import { enableScreens } from "react-native-screens";
+
+import MealsNavigator from "./navigation/MealsNavigator";
+
+enableScreens();
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -11,16 +16,16 @@ const fetchFonts = () => {
 };
 
 export default function App() {
-  const [dataLoaded, setDataLoaded] = useState(false);
+  const [fontLoaded, setFontLoaded] = useState(false);
 
-  if (!dataLoaded) {
+  if (!fontLoaded) {
     <AppLoading
       startAsync={fetchFonts}
-      onFinish={() => setDataLoaded(true)}
+      onFinish={() => setFontLoaded(true)}
       onError={(err) => console.log(err)}
     />;
   }
-  return <View style={styles.container}></View>;
+  return <MealsNavigator />;
 }
 
 const styles = StyleSheet.create({
