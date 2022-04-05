@@ -1,55 +1,54 @@
-import React from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-  TouchableNativeFeedback,
-} from "react-native";
-import { ScreenContainer } from "react-native-screens";
+import { Pressable, View, Text, StyleSheet, Platform } from "react-native";
 
-const CategoryGridTile = (props) => {
-  let TouchableCmp = TouchableOpacity;
-
-  if (Platform.OS === "android") {
-    TouchableCmp = TouchableNativeFeedback;
-  }
+function CategoryGridTile({ title, color, onPress }) {
   return (
-    <TouchableCmp style={styles.gridItem} onPress={props.onSelect}>
-      <View
-        style={{ ...styles.container, ...{ backgroundColor: props.color } }}
+    <View style={styles.gridItem}>
+      <Pressable
+        android_ripple={{ color: "#ccc" }}
+        style={({ pressed }) => [
+          styles.button,
+          pressed ? styles.buttonPressed : null,
+        ]}
+        onPress={onPress}
       >
-        <Text style={styles.title} numberOfLines={2}>
-          {props.title}
-        </Text>
-      </View>
-    </TouchableCmp>
+        <View style={{ ...styles.innerContainer, backgroundColor: color }}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+      </Pressable>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
-    margin: 15,
+    margin: 16,
     height: 150,
-  },
-  container: {
-    flex: 1,
-    borderRadius: 10,
+    borderRadius: 8,
+    elevation: 4,
+    backgroundColor: "white",
     shadowColor: "black",
-    shadowOpacity: 0.26,
+    shadowOpacity: 0.25,
     shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 10,
-    elevation: 3,
-    padding: 15,
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
+    shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
+  },
+  button: {
+    flex: 1,
+  },
+  buttonPressed: {
+    opacity: 0.5,
+  },
+  innerContainer: {
+    flex: 1,
+    padding: 16,
+    justifyContent: "center",
+    alignContent: "center",
+    borderRadius: 8,
   },
   title: {
-    fontFamily: "openSansBold",
-    fontSize: 22,
-    textAlign: "right",
+    fontWeight: "bold",
+    fontSize: 18,
   },
 });
 

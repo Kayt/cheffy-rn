@@ -1,38 +1,27 @@
-import AppLoading from "expo-app-loading";
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { useFonts } from "expo-font";
-import { enableScreens } from "react-native-screens";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import MealsNavigator from "./navigation/MealsNavigator";
+import CategoriesScreen from "./screens/CategoriesScreen";
+import MealsOverViewScreen from "./screens/MealsOverviewScreen";
 
-const fetchFonts = () => {
-  return Font.loadAsync({
-    openSans: require("./assets/fonts/OpenSans-Regular.ttf"),
-    openSansBold: require("./assets/fonts/OpenSans-Bold.ttf"),
-  });
-};
-
-enableScreens();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [fontLoaded, setFontLoaded] = useState(false);
-
-  if (!fontLoaded) {
-    <AppLoading
-      startAsync={fetchFonts}
-      onFinish={() => setFontLoaded(true)}
-      onError={(err) => console.log(err)}
-    />;
-  }
-  return <MealsNavigator />;
+  return (
+    <>
+      <StatusBar style="dark" />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="MealsCategories" component={CategoriesScreen} />
+          <Stack.Screen name="MealsOverview" component={MealsOverViewScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  container: {},
 });
